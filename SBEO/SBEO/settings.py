@@ -32,13 +32,14 @@ ALLOWED_HOSTS = ['.localhost', '127.0.0.1', '[::1]']
 # Application definition
 
 INSTALLED_APPS = [
-    'RMS',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'RMS',
+    'accounts',
 ]
 
 MIDDLEWARE = [
@@ -131,3 +132,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 COUNTRIES_ONLY = ["CH"]
 COUNTRIES_FIRST = ["CH"]
 COUNTRIES_FIRST_BREAK = ""
+
+
+# Register Custom User Model as default
+AUTH_USER_MODEL = 'accounts.User'

@@ -62,3 +62,16 @@ class Event(models.Model):
 
     def __str__(self):
         return f"{ self.name }"
+
+
+class Booking(models.Model):
+    event = models.ForeignKey(
+        Event,
+        on_delete=models.PROTECT,
+        verbose_name=_('Event'))
+    # to add: Person
+    is_selected = models.BooleanField(verbose_name=_('Selected for Event'))
+    # The Booking is official and not only temporary
+    is_official = models.BooleanField(verbose_name=_('Selection official'))
+    is_headreferee = models.BooleanField(
+        verbose_name=_('Headreferee for Event'))

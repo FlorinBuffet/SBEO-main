@@ -8,16 +8,16 @@ from django.conf import settings
 
 class Location(models.Model):
     name = models.CharField(
-        max_length=50,
+        max_length=150,
         verbose_name=_('Location Name'))
     club = models.CharField(
-        max_length=50,
+        max_length=250,
         verbose_name=_('Club Name'))
     street = models.CharField(
-        max_length=50,
+        max_length=80,
         verbose_name=_('Street'))
     house_number = models.CharField(
-        max_length=10,
+        max_length=5,
         verbose_name=_('House number'))
     postal_code = models.CharField(
         max_length=10,
@@ -51,21 +51,31 @@ class Event(models.Model):
     fee_per_person = models.IntegerField(verbose_name=_('Fees per Person'))
     notes = models.TextField(verbose_name=_('Additional Notes'))
     link1_link = models.URLField(verbose_name=_('Link 1 URL'))
-    link1_name = models.URLField(verbose_name=_('Link 1 Name'))
+    link1_name = models.CharField(
+        max_length=50,
+        verbose_name=_('Link 1 Name'))
     link2_link = models.URLField(verbose_name=_('Link 2 URL'))
-    link2_name = models.URLField(verbose_name=_('Link 2 Name'))
+    link2_name = models.CharField(
+        max_length=50,
+        verbose_name=_('Link 2 Name'))
     link3_link = models.URLField(verbose_name=_('Link 3 URL'))
-    link3_name = models.URLField(verbose_name=_('Link 3 Name'))
+    link3_name = models.CharField(
+        max_length=50,
+        verbose_name=_('Link 3 Name'))
     link4_link = models.URLField(verbose_name=_('Link 4 URL'))
-    link4_name = models.URLField(verbose_name=_('Link 4 Name'))
+    link4_name = models.CharField(
+        max_length=50,
+        verbose_name=_('Link 4 Name'))
     link5_link = models.URLField(verbose_name=_('Link 5 URL'))
-    link5_name = models.URLField(verbose_name=_('Link 5 Name'))
+    link5_name = models.CharField(
+        max_length=50,
+        verbose_name=_('Link 5 Name'))
 
     def __str__(self):
         return f"{ self.name }"
 
 
-class Booking(models.Model):
+class Registration(models.Model):
     event = models.ForeignKey(
         Event,
         on_delete=models.PROTECT,
@@ -74,8 +84,28 @@ class Booking(models.Model):
         settings.AUTH_USER_MODEL,
         on_delete=models.PROTECT,
         verbose_name=_('User'))
-    is_selected = models.BooleanField(verbose_name=_('Selected for Event'))
-    # The Booking is official and not only temporary
+
+
+class Invitation(models.Model):
+    event = models.ForeignKey(
+        Event,
+        on_delete=models.PROTECT,
+        verbose_name=_('Name')
+    )
+    invitees = models.ManyToManyField(
+        settings.AUTH_USER_MODEL,
+        related_name=_('Invitations'),
+        related_query_name='invitations'
+        verbose_name=_('Inivitees for Event')
+    )
+    # The Invitation is official and not only temporary
     is_official = models.BooleanField(verbose_name=_('Selection official'))
-    is_headreferee = models.BooleanField(
+    head_referee = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.SET_NULL,
+        blank=True,
+        null=True,
         verbose_name=_('Headreferee for Event'))
+    message = models.TextField(
+        verbose_name=_('Message')
+    )

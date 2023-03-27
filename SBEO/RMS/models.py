@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from django_countries.fields import CountryField
+from django.conf import settings
 
 # Create your models here.
 
@@ -69,7 +70,10 @@ class Booking(models.Model):
         Event,
         on_delete=models.PROTECT,
         verbose_name=_('Event'))
-    # to add: Person
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.PROTECT,
+        verbose_name=_('User'))
     is_selected = models.BooleanField(verbose_name=_('Selected for Event'))
     # The Booking is official and not only temporary
     is_official = models.BooleanField(verbose_name=_('Selection official'))

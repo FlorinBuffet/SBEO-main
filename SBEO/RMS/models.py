@@ -102,7 +102,7 @@ class Invitation(models.Model):
     is_official = models.BooleanField(verbose_name=_('Selection official'))
     head_referee = models.ForeignKey(
         settings.AUTH_USER_MODEL,
-        on_delete=models.SET_NULL,
+        on_delete=models.PROTECT,
         blank=True,
         null=True,
         verbose_name=_('Headreferee for Event'))

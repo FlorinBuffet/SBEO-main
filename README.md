@@ -1,4 +1,3 @@
-![Django CI](https://github.com/flkoch/training_planner/workflows/Django%20CI/badge.svg)
 # SBEO Django Project
 Django app by SBEO currently beeing built with following app:
 RMS - Referee Management System: Referees can set their availability for each event and the referee commission can select which get an invitation

@@ -1,0 +1,6 @@
+[flake8]
+exclude =
+    # Code not written by us
+    .venv
+    # Code not written by us
+    **/migrations

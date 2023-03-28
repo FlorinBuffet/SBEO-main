@@ -1,6 +1,5 @@
 .vscode/
 .venv/
-.flake8
 **/__pycache__/*
 reminders.txt
 db.sqlite3

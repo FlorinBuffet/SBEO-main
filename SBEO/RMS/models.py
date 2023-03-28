@@ -19,7 +19,7 @@ class Location(models.Model):
     comment: Text Field for comments like Parking etc
     is_deleted: Boolean for hiding a location in the selection
     """
-    
+
     name = models.CharField(
         max_length=150,
         verbose_name=_('Location Name'))

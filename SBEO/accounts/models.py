@@ -5,8 +5,10 @@ from django_countries.fields import CountryField
 
 # Create your models here.
 
+
 class UserManager(BaseUserManager):
-    def create_user(self, email, birth_date, mobile, street, house_number, postal_code, city, country, password=None):
+    def create_user(self, email, birth_date, mobile, street, house_number,
+                    postal_code, city, country, password=None):
         if not email:
             raise ValueError("User must have an email adress")
 
@@ -25,7 +27,8 @@ class UserManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
-    def create_superuser(self, email, birth_date, mobile, street, house_number, postal_code, city, country, password=None):
+    def create_superuser(self, email, birth_date, mobile, street, house_number,
+                         postal_code, city, country, password=None):
         superuser = self.create_user(
             email,
             password=password,
@@ -79,7 +82,7 @@ class User(AbstractBaseUser):
     @property
     def is_staff(self):
         return self.is_admin
-    
+
     def has_module_perms(self, app_label):
         return True
 

@@ -7,6 +7,19 @@ from django_countries.fields import CountryField
 
 
 class Location(models.Model):
+    """
+    Class to store a Location with following fields:
+    name: Char Field which represents a given name of a Location
+    club: Char Field which stands for the club which owns the Location
+    street: Char Field for a Street Name
+    house_numner: Char Field for a House Number
+    postal_code: Char Field for a Postal Code
+    city: Char Field for the City
+    Country: CountryField which is configured in /SBEO/SBEO/settings.py
+    comment: Text Field for comments like Parking etc
+    is_deleted: Boolean for hiding a location in the selection
+    """
+    
     name = models.CharField(
         max_length=150,
         verbose_name=_('Location Name'))

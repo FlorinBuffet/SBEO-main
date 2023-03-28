@@ -95,7 +95,7 @@ class Invitation(models.Model):
     invitees = models.ManyToManyField(
         settings.AUTH_USER_MODEL,
         related_name=_('Invitations'),
-        related_query_name='invitations'
+        related_query_name='invitations',
         verbose_name=_('Inivitees for Event')
     )
     # The Invitation is official and not only temporary

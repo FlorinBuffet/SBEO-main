@@ -17,9 +17,8 @@ class Location(models.Model):
     city: Char Field for the City
     Country: CountryField which is configured in /SBEO/SBEO/settings.py
     comment: Text Field for comments like Parking etc
-    is_deleted: Boolean for hiding a location in the selection
+    is_deleted: Boolean for user-deleted locations
     """
-
     name = models.CharField(
         max_length=150,
         verbose_name=_('Location Name'))
@@ -52,6 +51,19 @@ class Location(models.Model):
 
 
 class Event(models.Model):
+    """
+    Class to store an Event with following fields:
+    name: Char Field which represents a given name of an Event
+    location: ForeignKey to Location to select the location of the Event
+    start_date: Date Field at which the event starts
+    start_time: Time Field at which the persons have to be there
+    end_date: Date Field at which the event ends
+    persons_needed: Integer Field which tells, howmany persons are needed
+    notes: Text Field which contains notes about the event
+    links: 5 URLFields and CharFields with name and links
+    is_deleted: Boolean for user-deleted locations
+    is_locked: Boolean to lock event from further changes
+    """
     name = models.CharField(max_length=50, verbose_name=_('Event Name'))
     location = models.ForeignKey(
         Location,
@@ -61,7 +73,6 @@ class Event(models.Model):
     start_time = models.TimeField(verbose_name=_('Start Time'))
     end_date = models.DateTimeField(verbose_name=_('End Date'))
     persons_needed = models.IntegerField(verbose_name=_('Persons needed'))
-    fee_per_person = models.IntegerField(verbose_name=_('Fees per Person'))
     notes = models.TextField(verbose_name=_('Additional Notes'))
     link1_link = models.URLField(verbose_name=_('Link 1 URL'))
     link1_name = models.CharField(
@@ -83,12 +94,27 @@ class Event(models.Model):
     link5_name = models.CharField(
         max_length=50,
         verbose_name=_('Link 5 Name'))
+    is_deleted = models.BooleanField(
+        default=False,
+        verbose_name=_('Deleted'))
+    is_locked = models.BooleanField(
+        default=False,
+        verbose_name=_('Locked'))
 
     def __str__(self):
         return f"{ self.name }"
 
 
 class Registration(models.Model):
+    """
+    Class to store a Registration with following fields:
+    event: ForeignKey to select Event
+    user: ForeignKey to select User
+    is_selected: BooleanField which says if user is selected for event
+    is_head_referee: BooleanField which is set if user is HR for this event
+    is_final: BooleanField to define if selection is final
+    is_deleted: BooleanField for user deletion
+    """
     event = models.ForeignKey(
         Event,
         on_delete=models.PROTECT,
@@ -97,28 +123,41 @@ class Registration(models.Model):
         settings.AUTH_USER_MODEL,
         on_delete=models.PROTECT,
         verbose_name=_('User'))
+    is_selected = models.BooleanField(
+        default=None,
+        null=True,
+        verbose_name=_('Is selected'))
+    is_head_referee = models.BooleanField(
+        default=False,
+        verbose_name=_('Is Headreferee'))
+    is_final = models.BooleanField(
+        default=False,
+        verbose_name=_('Selection is final'))
+    is_deleted = models.BooleanField(
+        default=False,
+        verbose_name=_('Deleted'))
 
 
-class Invitation(models.Model):
+class RMSLog(models.Model):
+    """
+    Class to create some own Logging functions
+    timestamp: Timestamp of Log Entry
+    event: ForeignKey to select Event
+    user: ForeignKey to select User
+    registration: ForeignKey to select Registration
+    text: TextField for Log Entry
+    """
+    timestamp = models.DateTimeField(verbose_name=_('Timestamp'))
     event = models.ForeignKey(
         Event,
-        on_delete=models.PROTECT,
-        verbose_name=_('Name')
-    )
-    invitees = models.ManyToManyField(
+        on_delete=models.CASCADE,
+        verbose_name=_('Event'))
+    user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
-        related_name=_('Invitations'),
-        related_query_name='invitations',
-        verbose_name=_('Inivitees for Event')
-    )
-    # The Invitation is official and not only temporary
-    is_official = models.BooleanField(verbose_name=_('Selection official'))
-    head_referee = models.ForeignKey(
-        settings.AUTH_USER_MODEL,
-        on_delete=models.PROTECT,
-        blank=True,
-        null=True,
-        verbose_name=_('Headreferee for Event'))
-    message = models.TextField(
-        verbose_name=_('Message')
-    )
+        on_delete=models.CASCADE,
+        verbose_name=_('User'))
+    registration = models.ForeignKey(
+        Registration,
+        on_delete=models.CASCADE,
+        verbose_name=_('Registration'))
+    text = models.TextField(verbose_name=_('Log entry'))

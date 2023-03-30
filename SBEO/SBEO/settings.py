@@ -89,16 +89,16 @@ DATABASES = {
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator', # NOQA
+        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',  # NOQA
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator', # NOQA
+        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',  # NOQA
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator', # NOQA
+        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',  # NOQA
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator', # NOQA
+        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',  # NOQA
     },
 ]
 
@@ -136,3 +136,8 @@ COUNTRIES_FIRST_BREAK = ""
 
 # Register Custom User Model as default
 AUTH_USER_MODEL = 'accounts.User'
+
+
+# Append Slash automatically if no url was found
+# https://docs.djangoproject.com/en/2.1/ref/settings/#std:setting-APPEND_SLASH
+APPEND_SLASH = True

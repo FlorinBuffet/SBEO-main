@@ -133,6 +133,9 @@ class Registration(models.Model):
     is_final = models.BooleanField(
         default=False,
         verbose_name=_('Selection is final'))
+    confirmed_selection = models.BooleanField(
+        default=False,
+        verbose_name=_('Selection is confirmed by user'))
     is_deleted = models.BooleanField(
         default=False,
         verbose_name=_('Deleted'))
